@@ -10,11 +10,7 @@ import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.*;
 import de.fhpotsdam.unfolding.utils.MapUtils;
-import module6.CityMarker;
-import module6.CommonMarker;
-import module6.LandQuakeMarker;
-import module6.EarthquakeMarker;
-import module6.OceanQuakeMarker;
+import module6.*;
 import parsing.ParseFeed;
 import processing.core.PApplet;
 

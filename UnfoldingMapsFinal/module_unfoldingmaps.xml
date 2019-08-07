@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_unfoldingmaps" default="compile.module.unfoldingmaps">
+  <dirname property="module.unfoldingmaps.basedir" file="${ant.file.module_unfoldingmaps}"/>
+  
+  <property name="module.jdk.home.unfoldingmaps" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.unfoldingmaps" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.unfoldingmaps" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.unfoldingmaps" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="unfoldingmaps.output.dir" value="${module.unfoldingmaps.basedir}/out/production/UnfoldingMaps"/>
+  <property name="unfoldingmaps.testoutput.dir" value="${module.unfoldingmaps.basedir}/out/test/UnfoldingMaps"/>
+  
+  <path id="unfoldingmaps.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="unfoldingmaps.module.production.classpath">
+    <path refid="${module.jdk.classpath.unfoldingmaps}"/>
+    <path refid="library.core.classpath"/>
+  </path>
+  
+  <path id="unfoldingmaps.runtime.production.module.classpath">
+    <pathelement location="${unfoldingmaps.output.dir}"/>
+    <path refid="library.core.classpath"/>
+  </path>
+  
+  <path id="unfoldingmaps.module.classpath">
+    <path refid="${module.jdk.classpath.unfoldingmaps}"/>
+    <pathelement location="${unfoldingmaps.output.dir}"/>
+    <path refid="library.core.classpath"/>
+  </path>
+  
+  <path id="unfoldingmaps.runtime.module.classpath">
+    <pathelement location="${unfoldingmaps.testoutput.dir}"/>
+    <pathelement location="${unfoldingmaps.output.dir}"/>
+    <path refid="library.core.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.unfoldingmaps">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.unfoldingmaps">
+    <patternset refid="excluded.from.module.unfoldingmaps"/>
+  </patternset>
+  
+  <path id="unfoldingmaps.module.sourcepath">
+    <dirset dir="${module.unfoldingmaps.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.unfoldingmaps" depends="compile.module.unfoldingmaps.production,compile.module.unfoldingmaps.tests" description="Compile module UnfoldingMaps"/>
+  
+  <target name="compile.module.unfoldingmaps.production" depends="register.custom.compilers" description="Compile module UnfoldingMaps; production classes">
+    <mkdir dir="${unfoldingmaps.output.dir}"/>
+    <javac2 destdir="${unfoldingmaps.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.unfoldingmaps}/javac">
+      <compilerarg line="${compiler.args.unfoldingmaps}"/>
+      <bootclasspath refid="unfoldingmaps.module.bootclasspath"/>
+      <classpath refid="unfoldingmaps.module.production.classpath"/>
+      <src refid="unfoldingmaps.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.unfoldingmaps"/>
+    </javac2>
+    
+    <copy todir="${unfoldingmaps.output.dir}">
+      <fileset dir="${module.unfoldingmaps.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.unfoldingmaps.tests" depends="register.custom.compilers,compile.module.unfoldingmaps.production" description="compile module UnfoldingMaps; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.unfoldingmaps" description="cleanup module">
+    <delete dir="${unfoldingmaps.output.dir}"/>
+    <delete dir="${unfoldingmaps.testoutput.dir}"/>
+  </target>
+</project>
